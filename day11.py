@@ -1,5 +1,13 @@
 import random
-bet = 1000
+token = 1000
+print('''Welcome to the game of Black Jack!
+          
+          ''')
+print(f'''You will be given {token} to start of the game 
+          
+          
+         
+           ''')
 deck = {
     "Ace of clubs": 11, "2 of clubs": 2, "3 of clubs": 3, "4 of clubs": 4,
     "5 of clubs": 5, "6 of clubs": 6, "7 of clubs": 7, "8 of clubs": 8,
@@ -42,45 +50,48 @@ while True:
     player_1_cards = {}
     dealer_cards = {}
     #Rules and bet
-    print('''Welcome to the game of Black Jack!
-          
-          ''')
-    print('''You will be given 1000 tokens to start of the game and place 
-          some bets
-          
-          
-          ''')
     print ('''Enter the number of bets you want to place remember each 
-              time you win you will get the double amout of tokens that 
-              you placed on and if you loose all the tokens that you 
-              put on the bet will be taken away
+time you win you will get the double amout of tokens that 
+you placed on and if you loose all the tokens that you 
+put on the bet will be taken away
            
            
            
                ''')
     while True:
-        bet = float(input('''Enter the bet: '''))
-        if bet>1000:
-            print("Please enter an amount less than or equal to 1000")
-        if bet<=1000:
+        bet = float(input("Enter the bet:"))
+        if bet>token:
+            print(f"Please enter an amount less than or equal to {token}")
+        if bet<=token:
             break
+    token-=bet
         
     #Cards dealt to both the player and the dealer
     random_card_deal(player_1_cards)
     random_card_deal(player_1_cards)
-    print("Your cards are: ")
+    print(
+        
+        
+        
+        '''Your cards are: ''')
     for key in player_1_cards.keys():
         print(key)
     print(f'''Your points are {total_score(player_1_cards)}
                                      
-           ''')
+           
+
+''')
 
     
     random_card_deal(dealer_cards)
     random_card_deal(dealer_cards)
     print("The dealer's cards")
     print(list(dealer_cards.items())[0][0])
-    print("The second card of the dealer is faced down")
+    print('''The second card of the dealer is faced down
+          
+          
+          
+          ''')
 
     if total_score(player_1_cards)==21:
         print("BUST!")
@@ -88,28 +99,45 @@ while True:
         break
 
     #the player has to choose to Stand or Hit
-    ch = input('''If you want to hit enter h or if you want to stand enter s: ''')
+    ch = input("If you want to hit enter h or if you want to stand enter s: ")
     while ch in "hH" and total_score(player_1_cards)<21 : 
         random_card_deal(player_1_cards)
-        print('''Your cards are: ''')
+        print(
+            
+            
+            
+            
+            '''Your cards are: ''')
         for i in player_1_cards:
             print(i)
-        print(f"Your points are {total_score(player_1_cards)}")
+        print(f'''Your points are {total_score(player_1_cards)}
+
+
+
+''')
         print(list(dealer_cards.items())[0][0])
         print('''The second card of the dealer is faced down
               
-                   ''')
+                   
+              
+''')
         if total_score(player_1_cards)>=21:
             break
-        ch = input('''If you want to hit enter h or if you want to stand enter s: ''')
+        ch = input("If you want to hit enter h or if you want to stand enter s: ")
         if ch in "sS": 
             break
 
     #if player1 busts or the score is more than 21
     if total_score(player_1_cards)==21:
+        token+=bet*2
         print("BUST!")
         print("Congratulations you have won")
-        break
+        print("Now you have a total of",token,"tokens.")
+        print("That was an intresting game ")
+        play_again = input('''If you want to continue to play the game enter y or if you want to exit the game enter n: ''')
+        if play_again in 'nN':
+            break
+        
 
     
 
@@ -122,23 +150,44 @@ while True:
     print("The dealer's cards are")
     for key in dealer_cards.keys():
         print(key)
-    print(f"The total score of the dealer is{total_score(dealer_cards)}")
+    print(f'''The total score of the dealer is{dealer_total_score}
+
+
+
+
+
+''')
     #if player 1's score is more than 21 or dealer's score is more than 21 , and if both it is a tie
 
-    if total_score(player_1_cards)>21 and dealer_total_score<21:
-        ("Your score is more than 21 thus you lose ")
+    if total_score(player_1_cards)>21:
+        if dealer_total_score>21:
+            print("Its a tie as both you and the dealer's score is more than 21")
+            print("Now you have a total of",token,"tokens.")
+        else:
+         token-=bet
+         print("Your score is more than 21 thus you lose ")
+         print("Now you have a total of",token,"tokens.")
 
-    elif total_score(player_1_cards)<21 and dealer_total_score>21:
-        print("Player 1 wins")
+    elif dealer_total_score>21:
+        if total_score(player_1_cards)>21:
+            print("Its a tie as both you and the dealer's score is more than 21")
+            print("Now you have a total of",token,"tokens.")
+        else:
+            token+=bet*2
+            print("Player 1 wins")
+            print("Now you have a total of",token,"tokens.")
 
+    if total_score(player_1_cards)<21 and dealer_total_score<21:
     #has the player1 won or lost 
-    elif total_score(player_1_cards)>dealer_total_score:
-        print("You have won!")
-        print("Now you have a total of",bet*2,"tokens.")
-    elif total_score(player_1_cards)<dealer_total_score:
-        print("You have lost!")
-        print("Now you have a total of",bet*0.5,"tokens.")
-    elif total_score(player_1_cards)==dealer_total_score:
+            if total_score(player_1_cards)>dealer_total_score:
+                token+=bet*2
+                print("You have won!")
+                print("Now you have a total of",token,"tokens.")
+            elif total_score(player_1_cards)<dealer_total_score:
+                token-=bet
+                print("You have lost!")
+                print("Now you have a total of",token,"tokens.")
+    if total_score(player_1_cards)==dealer_total_score:
         print("It's a tie")
 
 
